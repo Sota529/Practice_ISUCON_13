@@ -1,7 +1,7 @@
+import { createHash } from 'node:crypto'
 import { Context } from 'hono'
 import { ResultSetHeader, RowDataPacket } from 'mysql2/promise'
 import { HonoEnvironment } from '../types/application'
-import { createHash } from 'node:crypto'
 import {
   defaultUserIDKey,
   defaultUserNameKey,
@@ -48,7 +48,7 @@ export const getIconHandler = [
       }
 
       await conn.commit().catch(throwErrorWith('failed to commit'))
-      const hash = createHash('sha256').update(new Uint8Array(icon.iamge)).digest('hex')
+      const hash = createHash('sha256').update(new Uint8Array(icon.image)).digest('hex')
       if (icon_hash.includes(hash)){
          return c.text("", 304)
       }
