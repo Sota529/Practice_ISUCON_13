@@ -79,5 +79,5 @@ max_binlog_size   = 100M
 
 disable-log-bin
 slow_query_log = 1
-slow_query_log_file = /var/log/mysql/slow.log
+slow_query_log_file = /var/log/mysql/mysql-slow.log
 long_query_time = 0
