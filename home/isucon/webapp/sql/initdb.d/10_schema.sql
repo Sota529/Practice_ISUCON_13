@@ -16,6 +16,9 @@ CREATE TABLE `icons` (
   `user_id` BIGINT NOT NULL,
   `image` LONGBLOB NOT NULL
 ) ENGINE=InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+ALTER TABLE icons ADD INDEX (user_id);
+
+
 
 -- ユーザごとのカスタムテーマ
 CREATE TABLE `themes` (
@@ -23,6 +26,8 @@ CREATE TABLE `themes` (
   `user_id` BIGINT NOT NULL,
   `dark_mode` BOOLEAN NOT NULL
 ) ENGINE=InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+ALTER TABLE themes ADD INDEX (user_id);
+
 
 -- ライブ配信
 CREATE TABLE `livestreams` (
@@ -35,6 +40,8 @@ CREATE TABLE `livestreams` (
   `start_at` BIGINT NOT NULL,
   `end_at` BIGINT NOT NULL
 ) ENGINE=InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+ALTER TABLE livestreams ADD INDEX (user_id);
+
 
 -- ライブ配信予約枠
 CREATE TABLE `reservation_slots` (
@@ -43,6 +50,8 @@ CREATE TABLE `reservation_slots` (
   `start_at` BIGINT NOT NULL,
   `end_at` BIGINT NOT NULL
 ) ENGINE=InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+ALTER TABLE reservation_slots ADD INDEX (start_at, end_at);
+
 
 -- ライブストリームに付与される、サービスで定義されたタグ
 CREATE TABLE `tags` (
@@ -57,6 +66,8 @@ CREATE TABLE `livestream_tags` (
   `livestream_id` BIGINT NOT NULL,
   `tag_id` BIGINT NOT NULL
 ) ENGINE=InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+ALTER TABLE livestream_tags ADD INDEX (livestream_id);
+
 
 -- ライブ配信視聴履歴
 CREATE TABLE `livestream_viewers_history` (
@@ -75,6 +86,8 @@ CREATE TABLE `livecomments` (
   `tip` BIGINT NOT NULL DEFAULT 0,
   `created_at` BIGINT NOT NULL
 ) ENGINE=InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+ALTER TABLE livecomments ADD INDEX (livestream_id);
+
 
 -- ユーザからのライブコメントのスパム報告
 CREATE TABLE `livecomment_reports` (
@@ -94,6 +107,8 @@ CREATE TABLE `ng_words` (
   `created_at` BIGINT NOT NULL
 ) ENGINE=InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 CREATE INDEX ng_words_word ON ng_words(`word`);
+ALTER TABLE ng_words ADD INDEX (user_id);
+
 
 -- ライブ配信に対するリアクション
 CREATE TABLE `reactions` (
@@ -104,17 +119,9 @@ CREATE TABLE `reactions` (
   `emoji_name` VARCHAR(255) NOT NULL,
   `created_at` BIGINT NOT NULL
 ) ENGINE=InnoDB CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
-
-
--- INDEX
-ALTER TABLE livestreams ADD INDEX (user_id);
 ALTER TABLE reactions ADD INDEX (livestream_id);
-ALTER TABLE icons ADD INDEX (user_id);
-ALTER TABLE themes ADD INDEX (user_id);
-ALTER TABLE ng_words ADD INDEX (user_id);
-ALTER TABLE livecomments ADD INDEX (livestream_id);
-ALTER TABLE reservation_slots ADD INDEX (start_at, end_at);
-ALTER TABLE livestream_tags ADD INDEX (livestream_id);
+
+
 
 use isudns;
 ALTER TABLE records ADD INDEX (name, disabled, domain_id);
