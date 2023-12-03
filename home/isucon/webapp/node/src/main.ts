@@ -88,6 +88,7 @@ const pool = createPool({
   host: process.env['ISUCON13_MYSQL_DIALCONFIG_ADDRESS'] ?? '127.0.0.1',
   port: Number(process.env['ISUCON13_MYSQL_DIALCONFIG_PORT'] ?? '3306'),
   connectionLimit: 10,
+  namedPlaceholders: true,
 })
 
 if (!process.env['ISUCON13_POWERDNS_SUBDOMAIN_ADDRESS']) {
