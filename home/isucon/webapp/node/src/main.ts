@@ -6,7 +6,7 @@ import { hash, compare } from 'bcrypt'
 import { createPool } from 'mysql2/promise'
 import { CookieStore, sessionMiddleware } from 'hono-sessions'
 import { Hono } from 'hono'
-import { logger } from 'hono/logger'
+// import { logger } from 'hono/logger'
 import {
   ApplicationRuntime,
   HonoEnvironment,
