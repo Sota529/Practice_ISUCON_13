@@ -49,7 +49,7 @@ export const getIconHandler = [
 
       await conn.commit().catch(throwErrorWith('failed to commit'))
 
-      if (icon_hash.includes(createHash('sha256').update(new Uint8Array(icon.iamge)).digest('hex'))){
+      if (createHash('sha256').update(new Uint8Array(icon.iamge)).digest('hex').includes(icon_hash)){
          return c.text("", 304)
       }
 
