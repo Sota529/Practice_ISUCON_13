@@ -107,14 +107,14 @@ CREATE TABLE `reactions` (
 
 
 -- INDEX
-ALTER TABLE `livestream_tags` ADD INDEX (livestream_id);
-ALTER TABLE `livestreams` ADD INDEX (user_id);
-ALTER TABLE `reactions` ADD INDEX (livestream_id);
-ALTER TABLE `icons` ADD INDEX (user_id);
-ALTER TABLE `themes` ADD INDEX (user_id);
-ALTER TABLE `ng_words` ADD INDEX (user_id);
-ALTER TABLE `livecomments` ADD INDEX (livestream_id);
-ALTER TABLE `reservation_slots` ADD INDEX (start_at, end_at);
+ALTER TABLE livestreams ADD INDEX (user_id);
+ALTER TABLE reactions ADD INDEX (livestream_id);
+ALTER TABLE icons ADD INDEX (user_id);
+ALTER TABLE themes ADD INDEX (user_id);
+ALTER TABLE ng_words ADD INDEX (user_id);
+ALTER TABLE livecomments ADD INDEX (livestream_id);
+ALTER TABLE reservation_slots ADD INDEX (start_at, end_at);
+ALTER TABLE livestream_tags ADD INDEX (livestream_id);
 
-use `isudns`;
-ALTER TABLE `records` ADD INDEX (name);
+use isudns;
+ALTER TABLE records ADD INDEX (name, disabled, domain_id);
