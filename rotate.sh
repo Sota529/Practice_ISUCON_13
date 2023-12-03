@@ -11,7 +11,7 @@ fi
 
 mv /var/log/nginx/access.log /var/log/nginx/access.log.$time
 
-mv /var/log/mysql/slow.log /home/isucon/log/$time/mysql-slow-$time.log
+mv /var/log/mysql/mysql-slow.log /home/isucon/log/$time/mysql-slow-$time.log
 mysqladmin flush-logs
 
 sudo sh -c "sudo mysqldumpslow -s t /home/isucon/log/$time/mysql-slow-$time.log > /home/isucon/log/$time/long_time_$time.txt"
