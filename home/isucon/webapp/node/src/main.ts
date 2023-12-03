@@ -107,7 +107,7 @@ const applicationDeps = {
 } satisfies ApplicationRuntime
 
 const app = new Hono<HonoEnvironment>()
-app.use('*', logger())
+// app.use('*', logger())
 app.use(
   '*',
   sessionMiddleware({
