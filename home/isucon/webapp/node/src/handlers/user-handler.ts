@@ -16,7 +16,7 @@ import { IconModel, UserModel } from '../types/models'
 export const getIconHandler = [
   async (c: Context<HonoEnvironment, '/api/user/:username/icon'>) => {
     const username = c.req.param('username')
-    const icon_hash = c.req.query()
+    const icon_hash =  c.req.header('If-None-Match')
 
     const conn = await c.get('pool').getConnection()
     await conn.beginTransaction()
@@ -49,12 +49,12 @@ export const getIconHandler = [
 
       await conn.commit().catch(throwErrorWith('failed to commit'))
       const hash = createHash('sha256').update(new Uint8Array(icon.image)).digest('hex')
-      console.log("hash",hash);
       console.log("icon_hash",icon_hash);
-      if(Object.keys(icon_hash).length !== 0){
+      console.log("hash",hash);
+      if(icon_hash !== undefined){
         console.log("hasshashhash",icon_hash.includes(hash));
     }
-      if (Object.keys(icon_hash).length !== 0  && icon_hash.includes(hash)){
+      if (icon_hash !== undefined && icon_hash.includes(hash)){
          return new c.text('', 304)
       }
 
