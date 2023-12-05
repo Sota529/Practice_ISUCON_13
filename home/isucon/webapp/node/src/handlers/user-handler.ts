@@ -16,7 +16,7 @@ import { IconModel, UserModel } from '../types/models'
 export const getIconHandler = [
   async (c: Context<HonoEnvironment, '/api/user/:username/icon'>) => {
     const username = c.req.param('username')
-    const icon_hash = c.req.query('If-None-Match')
+    const icon_hash = c.req.query()
 
     const conn = await c.get('pool').getConnection()
     await conn.beginTransaction()
