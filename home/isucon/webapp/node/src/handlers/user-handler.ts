@@ -53,7 +53,7 @@ export const getIconHandler = [
       console.log("hash",hash);
       console.log("icon_hash.includes(hash)",icon_hash.includes(hash));
       
-      if (icon_hash && icon_hash.includes(hash)){
+      if (icon_hash !== undefined && icon_hash.includes(hash)){
          return new Response(null, { status: 304 })
       }
 
