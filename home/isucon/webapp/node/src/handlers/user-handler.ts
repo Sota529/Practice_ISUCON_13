@@ -58,10 +58,9 @@ export const getIconHandler = [
 
       }
       
-      if (icon_hash!==undefined && icon_hash.includes(hash)){
+      if (icon_hash!==undefined &&icon_hash.substring(1,icon_hash.length -1).includes(hash)){
         console.log("hoge");
-        // return  c.text('304',304)
-      //   return c.body('')
+        return  c.text('304',304)
       }
 
       return c.body(icon.image, 200, {
