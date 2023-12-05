@@ -50,9 +50,19 @@ export const getIconHandler = [
       await conn.commit().catch(throwErrorWith('failed to commit'))
       const hash = createHash('sha256').update(new Uint8Array(icon.image)).digest('hex')
 
+
+      console.log({icon_hash});
+      if(icon_hash!==undefined){
+        console.log(hash);
+        console.log(hash.substring(1, icon_hash.length -1));
+        console.log(hash);
+        console.log(hash===icon_hash);
+
+      }
+      
       if (icon_hash!==undefined && icon_hash.includes(hash)){
         console.log("hoge");
-        return  c.text('304',304)
+        // return  c.text('304',304)
       //   return c.body('')
       }
 
