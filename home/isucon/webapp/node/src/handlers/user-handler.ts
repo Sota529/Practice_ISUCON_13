@@ -51,7 +51,7 @@ export const getIconHandler = [
       const hash = createHash('sha256').update(new Uint8Array(icon.image)).digest('hex')
       console.log("icon_hash",icon_hash);
       console.log("hash",hash);
-      console.log("icon_hash.includes(hash)",icon_hash.includes(hash));
+      console.log("hasshashhash",icon_hash.includes(hash));
       
       if (icon_hash !== undefined && icon_hash.includes(hash)){
          return new Response(null, { status: 304 })
