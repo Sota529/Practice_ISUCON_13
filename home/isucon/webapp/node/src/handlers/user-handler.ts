@@ -55,7 +55,9 @@ export const getIconHandler = [
         console.log("hasshashhash",icon_hash.includes(hash));
     }
       if (icon_hash !== undefined && icon_hash.includes(hash)){
-         return c.text("",304)
+        return new Response("", {
+          status: 304,
+        });
       }
 
       return c.body(icon.image, 200, {
