@@ -54,9 +54,7 @@ export const getIconHandler = [
       console.log({hash});
       if(icon_hash!==undefined){
         console.log(icon_hash);
-        console.log(hash.substring(1, hash.length -1));
-        console.log(icon_hash.substring(1,icon_hash.length -1));
-        console.log(hash.substring(1, hash.length -1)===icon_hash.substring(1,icon_hash.length -1))
+        console.log(icon_hash.substring(1,icon_hash.length -1).includes(hash))
 
       }
       
