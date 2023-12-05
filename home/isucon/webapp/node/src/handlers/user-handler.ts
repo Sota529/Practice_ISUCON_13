@@ -16,7 +16,7 @@ import { IconModel, UserModel } from '../types/models'
 export const getIconHandler = [
   async (c: Context<HonoEnvironment, '/api/user/:username/icon'>) => {
     const username = c.req.param('username')
-    const icon_hash = c.req.param('If-None-Match')
+    const icon_hash = c.req.query('If-None-Match')
 
     const conn = await c.get('pool').getConnection()
     await conn.beginTransaction()
@@ -55,7 +55,7 @@ export const getIconHandler = [
         console.log("hasshashhash",icon_hash.includes(hash));
     }
       if (icon_hash !== undefined && icon_hash.includes(hash)){
-         return new Response(null, { status: 304 })
+         return new c.text('', 304)
       }
 
       return c.body(icon.image, 200, {
