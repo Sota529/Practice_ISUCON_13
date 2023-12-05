@@ -49,12 +49,12 @@ export const getIconHandler = [
 
       await conn.commit().catch(throwErrorWith('failed to commit'))
       const hash = createHash('sha256').update(new Uint8Array(icon.image)).digest('hex')
-      console.log("icon_hash",icon_hash);
       console.log("hash",hash);
-      if(icon_hash){
+      console.log("icon_hash",icon_hash);
+      if(Object.keys(icon_hash).length !== 0){
         console.log("hasshashhash",icon_hash.includes(hash));
     }
-      if (icon_hash  && icon_hash.includes(hash)){
+      if (Object.keys(icon_hash).length !== 0  && icon_hash.includes(hash)){
          return new c.text('', 304)
       }
 
