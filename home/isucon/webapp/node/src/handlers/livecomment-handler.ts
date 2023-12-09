@@ -356,7 +356,7 @@ export const moderateHandler = [
                 (SELECT CONCAT('%', ?, '%')	AS pattern) AS patterns
                 ON texts.text LIKE patterns.pattern) >= 1;
               `,
-              [livecomment.id, livecomment.comment, ngword.word],
+              [livecomment.id, livecomment.comment, ngword],
             )
             .catch(
               throwErrorWith(
