@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { Context } from 'hono'
 import { ResultSetHeader, RowDataPacket } from 'mysql2/promise'
 import { HonoEnvironment } from '../types/application'
@@ -15,6 +16,7 @@ import { IconModel, UserModel } from '../types/models'
 export const getIconHandler = [
   async (c: Context<HonoEnvironment, '/api/user/:username/icon'>) => {
     const username = c.req.param('username')
+    const icon_hash =  c.req.header('If-None-Match')
 
     const conn = await c.get('pool').getConnection()
     await conn.beginTransaction()
@@ -22,7 +24,7 @@ export const getIconHandler = [
     try {
       const [[user]] = await conn
         .query<(UserModel & RowDataPacket)[]>(
-          'SELECT * FROM users WHERE name = ?',
+          'SELECT id FROM users WHERE name = ?',
           [username],
         )
         .catch(throwErrorWith('failed to get user'))
@@ -34,8 +36,8 @@ export const getIconHandler = [
 
       const [[icon]] = await conn
         .query<(Pick<IconModel, 'image'> & RowDataPacket)[]>(
-          'SELECT image FROM icons WHERE user_id = ?',
-          [user.id],
+          'SELECT image FROM icons INNER JOIN users ON icons.user_id = users.id WHERE users.name =?' ,
+          [username],
         )
         .catch(throwErrorWith('failed to get icon'))
       if (!icon) {
@@ -46,7 +48,6 @@ export const getIconHandler = [
       }
 
       await conn.commit().catch(throwErrorWith('failed to commit'))
-
       return c.body(icon.image, 200, {
         'Content-Type': 'image/jpeg',
       })
