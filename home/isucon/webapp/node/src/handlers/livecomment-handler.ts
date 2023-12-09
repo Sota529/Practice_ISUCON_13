@@ -303,14 +303,14 @@ export const moderateHandler = [
 
     try {
       // 配信者自身の配信に対するmoderateなのかを検証
-      const [ownedLivestreams] = await conn
+      const [livestream] = await conn
         .query<(LivecommentsModel & RowDataPacket)[]>(
-          'SELECT * FROM livestreams WHERE id = ? AND user_id = ?',
+          'SELECT id FROM livestreams WHERE id = ? AND user_id = ?',
           [livestreamId, userId],
         )
         .catch(throwErrorWith('failed to get livestreams'))
 
-      if (ownedLivestreams.length === 0) {
+      if (!livestream) {
         await conn.rollback()
         return c.text(
           "A streamer can't moderate livestreams that other streamers own",
@@ -327,43 +327,27 @@ export const moderateHandler = [
 
       const [ngwords] = await conn
         .query<(NgWordsModel & RowDataPacket)[]>(
-          'SELECT * FROM ng_words WHERE livestream_id = ?',
+          'SELECT word FROM ng_words WHERE livestream_id = ?',
           [livestreamId],
         )
         .catch(throwErrorWith('failed to get NG words'))
 
-      // NGワードにヒットする過去の投稿も全削除する
       for (const ngword of ngwords) {
-        // ライブコメント一覧取得
-        const [livecomments] = await conn
-          .query<(LivecommentsModel & RowDataPacket)[]>(
-            'SELECT * FROM livecomments',
-          )
-          .catch(throwErrorWith('failed to get livecomments'))
-
-        for (const livecomment of livecomments) {
           await conn
             .query(
               `
                 DELETE FROM livecomments
                 WHERE
-                id = ? AND
                 livestream_id = ? AND
-                (SELECT COUNT(*)
-                FROM
-                (SELECT ? AS text) AS texts
-                INNER JOIN
-                (SELECT CONCAT('%', ?, '%')	AS pattern) AS patterns
-                ON texts.text LIKE patterns.pattern) >= 1;
+                comment LIKE CONCAT('%', ?, '%');
               `,
-              [livecomment.id, livestreamId, livecomment.comment, ngword.word],
+              [livestreamId, ngword.word],
             )
             .catch(
               throwErrorWith(
                 'failed to delete old livecomments that hit spams',
               ),
             )
-        }
       }
 
       await conn.commit().catch(throwErrorWith('failed to commit'))
