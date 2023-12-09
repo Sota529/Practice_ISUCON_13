@@ -310,7 +310,7 @@ export const moderateHandler = [
         )
         .catch(throwErrorWith('failed to get livestreams'))
 
-      if (!livestream.id) {
+      if (!livestream) {
         await conn.rollback()
         return c.text(
           "A streamer can't moderate livestreams that other streamers own",
