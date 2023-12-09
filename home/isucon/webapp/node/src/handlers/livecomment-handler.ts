@@ -348,7 +348,6 @@ export const moderateHandler = [
                 'failed to delete old livecomments that hit spams',
               ),
             )
-        }
       }
 
       await conn.commit().catch(throwErrorWith('failed to commit'))
