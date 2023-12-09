@@ -332,32 +332,22 @@ export const moderateHandler = [
         )
         .catch(throwErrorWith('failed to get NG words'))
 
-      // ライブコメント一覧取得
-      const [livecomments] = await conn
-          .query<(LivecommentsModel & RowDataPacket)[]>(
-            'SELECT * FROM livecomments WHERE livestream_id = ?',
-            [livestreamId],
-          )
-          .catch(throwErrorWith('failed to get livecomments'))
-
       for (const ngword of ngwords) {
-        for (const livecomment of livecomments) {
-          if (livecomment.comment.indexOf(ngword.word)!==-1){
           await conn
             .query(
               `
                 DELETE FROM livecomments
                 WHERE
-                id = ?
+                livestream_id = ? AND
+                comment LIKE CONCAT('%', ?, '%');
               `,
-              [livecomment.id],
+              [livestreamId, ngword.word],
             )
             .catch(
               throwErrorWith(
                 'failed to delete old livecomments that hit spams',
               ),
             )
-          }
         }
       }
 
