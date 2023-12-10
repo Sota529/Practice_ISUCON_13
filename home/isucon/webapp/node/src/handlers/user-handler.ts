@@ -220,6 +220,8 @@ export const registerHandler = async (
 export const loginHandler = async (
   c: Context<HonoEnvironment, '/api/login'>,
 ) => {
+  console.log("hogehgoe");
+  
   const body = await c.req.json<{
     username: string
     password: string
