@@ -250,6 +250,7 @@ export const loginHandler = async (
       .get('runtime')
       .comparePassword(body.password, user.password)
       .catch(throwErrorWith('failed to compare hash and password'))
+    console.log('catch')
     if (!isPasswordMatch) {
       return c.text('invalid username or password', 401)
     }
