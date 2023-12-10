@@ -2,7 +2,7 @@
   "name": "isupipe",
   "version": "1.0.0",
   "scripts": {
-    "start": "bun run --hot  src/main.ts",
+    "start": "bun run src/main.ts",
     "format": "prettier -w src",
     "lint": "eslint --fix src"
   },
