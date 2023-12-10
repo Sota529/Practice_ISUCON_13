@@ -246,8 +246,8 @@ export const loginHandler = async (
     await conn.commit().catch(throwErrorWith('failed to commit'))
     console.log('commit')
 
-    const isPasswordMatch = await c
-      .get('runtime')
+    const a = await c.get('runtime')
+    const isPasswordMatch = a
       .comparePassword(body.password, user.password)
       .catch(throwErrorWith('failed to compare hash and password'))
     console.log('catch')
