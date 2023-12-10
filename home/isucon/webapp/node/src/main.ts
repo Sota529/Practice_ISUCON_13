@@ -1,7 +1,7 @@
 import { spawn } from 'node:child_process'
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import { serve } from '@hono/node-server'
+// import { serve } from '@hono/node-server'
 import { hash, compare } from 'bcrypt'
 import { createPool } from 'mysql2/promise'
 import { CookieStore, sessionMiddleware } from 'hono-sessions'
@@ -207,6 +207,6 @@ app.get(
 // // 課金情報
 app.get('/api/payment', GetPaymentResult)
 
-serve({ ...app, port: 8080 }, (add) =>
-  console.log(`Listening on http://localhost:${add.port}`),
-)
+// serve({ ...app, port: 8080 }, (add) =>
+//   console.log(`Listening on http://localhost:${add.port}`),
+// )
