@@ -236,13 +236,15 @@ export const loginHandler = async (
       )
       .catch(throwErrorWith('failed to get user'))
     console.log('test')
-
+    console.log(user)
     if (!user) {
       await conn.rollback()
       return c.text('invalid username or password', 401)
     }
-
+    console.log("koko");
+    
     await conn.commit().catch(throwErrorWith('failed to commit'))
+    console.log('commit')
 
     const isPasswordMatch = await c
       .get('runtime')
@@ -251,7 +253,8 @@ export const loginHandler = async (
     if (!isPasswordMatch) {
       return c.text('invalid username or password', 401)
     }
-
+    console.log('isPasswordMatch')
+    
     // 1時間でセッションが切れるようにする
     const sessionEndAt = Date.now() + 1000 * 60 * 60
     console.log("session");
