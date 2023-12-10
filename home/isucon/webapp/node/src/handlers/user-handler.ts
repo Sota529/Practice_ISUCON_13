@@ -225,7 +225,8 @@ export const loginHandler = async (
 
   const conn = await c.get('pool').getConnection()
   await conn.beginTransaction()
-
+  console.log("hoge");
+  
   try {
     // usernameはUNIQUEなので、whereで一意に特定できる
     const [[user]] = await conn
@@ -234,6 +235,7 @@ export const loginHandler = async (
         [body.username],
       )
       .catch(throwErrorWith('failed to get user'))
+    console.log('test')
 
     if (!user) {
       await conn.rollback()
@@ -252,18 +254,22 @@ export const loginHandler = async (
 
     // 1時間でセッションが切れるようにする
     const sessionEndAt = Date.now() + 1000 * 60 * 60
-
+    console.log("session");
+    
     const session = c.get('session')
     session.set(defaultUserIDKey, user.id)
     session.set(defaultUserNameKey, user.name)
     session.set(defaultSessionExpiresKey, sessionEndAt)
 
     // eslint-disable-next-line unicorn/no-null
+    console.log('return')
     return c.body(null)
   } catch (error) {
+    console.log('error',error)
     await conn.rollback()
     return c.text(`Internal Server Error\n${error}`, 500)
   } finally {
+    console.log('finally')
     await conn.rollback()
     conn.release()
   }
