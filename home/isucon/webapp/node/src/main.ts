@@ -212,5 +212,5 @@ app.get('/api/payment', GetPaymentResult)
 // )
 export default {
   port: 8080,
-  fetch: {...app.fetch},
+  fetch: {...app},
 }
