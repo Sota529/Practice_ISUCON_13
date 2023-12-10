@@ -210,4 +210,7 @@ app.get('/api/payment', GetPaymentResult)
 // serve({ ...app, port: 8080 }, (add) =>
 //   console.log(`Listening on http://localhost:${add.port}`),
 // )
-export default app
+export default {
+  port: 8080,
+  fetch: app.fetch,
+}
